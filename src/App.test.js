@@ -1,8 +1,13 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen } from "@testing-library/react";
+import App from "./App";
+// import Rewards from "./pages/rewards";
 
-test('renders learn react link', () => {
+// jest.mock("./pages/rewards", () => () => <div data-testid="rewards-component">Rewards Component</div>);
+
+test("renders Rewards component inside App", () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  
+  // Check if the Rewards component is rendered
+  const rewardsElement = screen.getByText("Rewards Offers");
+  expect(rewardsElement).toBeInTheDocument();
 });
