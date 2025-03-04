@@ -1,38 +1,55 @@
 import React, { useEffect, useState } from "react";
 import RewardsTable from "./RewardsTable";
 import { fetchCustomerTransactions } from "../../server/RewardsCustomerApi";
+import useDebounce from "../../utils/Usedebounce";
+import "./rewards.scss";
 
 const Rewards = () => {
-  const [loading, setLoading] = useState(true);
-  const [rewardData, setRewardData] = useState([]); 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [sortBy, setSortBy] = useState("customerName");
-  const [sortDirection, setSortDirection] = useState("asc");
+  // State variables to manage rewards data, pagination, sorting, and search
+  const [loading, setLoading] = useState(true); // Loading state
+  const [rewardData, setRewardData] = useState([]); // Stores fetched rewards data
+  const [currentPage, setCurrentPage] = useState(1); // Current page in pagination
+  const [totalPages, setTotalPages] = useState(1); // Total pages available
+  const [sortBy, setSortBy] = useState("customerName"); // Column to sort by
+  const [sortDirection, setSortDirection] = useState("asc"); // Sorting direction (asc/desc)
+  const [search, setSearch] = useState(""); // Search input value
+
+  // Debounce search input to reduce API calls (waits 500ms before triggering)
+  const debouncedSearch = useDebounce(search, 500);
+
+  // Fetches rewards data with pagination, sorting, and searching.
+
+  const getRewards = async () => {
+    try {
+      const response = await fetchCustomerTransactions({
+        page: currentPage,
+        pageSize: 5,
+        sortBy,
+        sortDirection,
+        search, // Search term for filtering customer names
+      });
+
+      console.log(response, "response"); // Debugging: Logs API response
+
+      // Update state with fetched data
+      setRewardData(response.data);
+      setTotalPages(response.totalPages);
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+    } finally {
+      setLoading(false); // Stop loading indicator after fetch attempt
+    }
+  };
+
+  //Fetch rewards data whenever dependencies (page, sort, search) change.
 
   useEffect(() => {
-    const getRewards = async () => {
-      try {
-        const response = await fetchCustomerTransactions({
-          page: currentPage,
-          pageSize: 5,
-          sortBy,
-          sortDirection,
-        });  // fetch a rewards list based on customer from a simulated dataset, with support for pagination and sorting.
-      
-        setRewardData(response.data);  // setting rewards list based on customer
-        setTotalPages(response.totalPages);
-      } catch (error) {
-        console.error("Error fetching transactions:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     getRewards();
-  }, [currentPage, sortBy, sortDirection]); 
+  }, [currentPage, sortBy, sortDirection, debouncedSearch]); // Dependencies trigger re-fetch
 
-// handle sorting using the column name
+  // Handles sorting when a column header is clicked.
+  //  Toggles between ascending and descending order.
+
   const handleSort = (column) => {
     setSortDirection(
       sortBy === column && sortDirection === "asc" ? "desc" : "asc"
@@ -41,19 +58,31 @@ const Rewards = () => {
   };
 
   return (
-    <div className="p-4 w-100" data-testid="rewards-component">
+    <div className="w-100 reward-container" data-testid="rewards-component">
       <h1 className="text-2xl font-bold mb-4">Rewards Offers</h1>
+
       {loading ? (
-        <p>Loading...</p>
+        <p>Loading...</p> // Show loading message while data is being fetched
       ) : (
-        // display the rewards list in a table format
-        <RewardsTable
-          rewards={rewardData}
-          onSort={handleSort}
-          onPageChange={setCurrentPage}
-          currentPage={currentPage}
-          totalPages={totalPages}
-        /> 
+        <>
+          {/* Search input field */}
+          <input
+            className="reward-search"
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search customer name..."
+          />
+
+          {/* Display rewards data in a table */}
+          <RewardsTable
+            rewards={rewardData}
+            onSort={handleSort}
+            onPageChange={setCurrentPage}
+            currentPage={currentPage}
+            totalPages={totalPages}
+          />
+        </>
       )}
     </div>
   );

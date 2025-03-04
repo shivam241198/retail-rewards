@@ -32,7 +32,10 @@ export const purchaseTransactions = async () => {
             { "id": 26, "customerId": 1, "customerName": "Shiva", "amount": 140, "date": "2024-03-22" },
             { "id": 27, "customerId": 11, "customerName": "Pooja", "amount": 170, "date": "2024-03-25" },
             { "id": 28, "customerId": 11, "customerName": "Pooja", "amount": 230, "date": "2024-03-28" },
-            { "id": 29, "customerId": 12, "customerName": "Arjun", "amount": 220, "date": "2024-03-30" }
+            { "id": 29, "customerId": 12, "customerName": "Arjun", "amount": 220, "date": "2024-03-30" },
+            { "id": 30, "customerId": 12, "customerName": "Arjun", "amount": 210, "date": "2025-01-30" },
+           
+            { "id": 31, "customerId": 12, "customerName": "Arjun", "amount": 2200, "date": "2025-02-30" }
           ]
         );
       }, 1000); 

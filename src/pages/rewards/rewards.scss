@@ -1,0 +1,13 @@
+.reward{
+    &-container{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    &-search{
+        padding: 5px;
+        height: 18px;
+        min-width: 200px;
+        margin-bottom: 10px;
+        display: flex;
+    }
+}

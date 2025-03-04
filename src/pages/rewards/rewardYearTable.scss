@@ -1,0 +1,35 @@
+.rewardYearTable{
+    table {
+     text-align: left;
+     position: relative;
+     border-collapse: collapse; 
+     background-color: #f6f6f6;
+     width: 100%;
+   }
+   td, th {
+     border: 1px solid #999;
+     padding: 10px;
+   }
+   td{
+     font-size: 12px;
+     font-weight: 400;
+   }
+   th {
+     background: rgb(91, 64, 207);
+     color: rgb(232, 224, 224);
+     padding: 10px;
+     font-size: 12px;
+     font-weight: 700;
+   }
+   .primary{
+     background-color: #573a3a
+   }
+   
+   tfoot > tr  {
+     background: black;
+     color: white;
+   }
+   tbody > tr:hover {
+     background-color: #ffffff;
+   }
+ }

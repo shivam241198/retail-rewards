@@ -1,6 +1,9 @@
 import React from "react";
 import Table from "../../components/table";
+import { RewardYearTable } from "./RewardYearTable";
 
+//RewardsTable Component Displays a table of customer rewards data.
+ 
 const RewardsTable = ({
   rewards,
   onSort,
@@ -9,26 +12,25 @@ const RewardsTable = ({
   currentPage,
 }) => {
  
-  // define column names with corresponding keys
+  // Defines table column structure with respective data keys and labels. The `render` function is used for custom rendering of the "Rewards (points)" column.
   const columns = [
-    { key: "customerName", label: "Customer Name" },
+    { key: "customerName", label: "Customer Name" }, // Displays customer name
+
     {
-      key: "months",
-      label: "Monthly Rewards (points)",
-      // This method is used to extract the list based on month and rewards
-      render: (months) =>
-        Object.entries(months).map(([month, data]) => (
-          <div key={data.id}>
-            {month} - {data.rewards}
-          </div>
-        )),
+      key: "years",
+      label: "Rewards (points)",
+      // Custom render function for displaying monthly rewards. Uses the `RewardYearTable` component to format the rewards data.
+      
+      render: (years) => <RewardYearTable years={years} />
     },
-    { key: "totalAmount", label: "Total Amount ($)" },
-    { key: "totalRewards", label: "Total Rewards (points)" },
+
+    { key: "totalAmount", label: "Total Amount ($)" }, // Displays total amount spent by customer
+    { key: "totalRewards", label: "Total Rewards (points)" }, // Displays total rewards earned
   ];
 
   return (
-    // Pass the required props to the custom table
+    // Custom Table component to display rewards data.
+    
     <Table
       testId={'rewards-table'}
       data={rewards}

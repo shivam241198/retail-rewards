@@ -9,7 +9,7 @@ const Table = ({
   testId,
 }) => {
   return (
-    <div className="p-4" data-testid={testId}>
+    <div className="p-4 rewardTable" data-testid={testId}>
       <table className="min-w-full border bg-white">
         <thead>
           <tr>
