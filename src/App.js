@@ -1,13 +1,13 @@
-import Rewards from "./pages/rewards/Rewards";
-import "./App.css";
+import Rewards from "./pages/rewards/Rewards"; // Importing the Rewards component 
+import "./App.css"; // Importing CSS styles
 
 function App() {
   return (
     <div className="App">
-      {/* Rewards components */}
+      {/* Rendering the Rewards component inside the main App component */}
       <Rewards />
     </div>
   );
 }
 
-export default App;
+export default App; // Exporting the App component 

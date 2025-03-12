@@ -1,38 +1,36 @@
-import './rewardYearTable.scss';
+import Table from "../../components/table"; // Importing the custom Table component
+import { months } from "../../utils/Helper";
+import "./rewardYearTable.scss"; // Importing styles
 
 export const RewardYearTable = ({ years }) => {
+    // Defining table columns with month names and total rewards
+    const columns = [
+        { key: "year", label: "Year" }, // Column for the year
+        ...months.map((month) => ({
+            key: month,
+            label: month,
+            render: (value) => value || "-", // Render '-' if no reward data available
+        })),
+        { key: "totalYearlyRewards", label: "Total Rewards" } // Column for total rewards per year
+    ];
+
+    // Transforming the years object into an array for the Table component
+    const data = Object.entries(years).map(([year, data]) => ({
+        year, // Assigning the year value
+        ...Object.fromEntries(
+            Object.keys(data.months).map((month) => [month, data.months[month]?.rewards || "-"]) // Extracting monthly rewards, defaulting to '-'
+        ),
+        totalYearlyRewards: data.totalYearlyRewards // Assigning total yearly rewards
+    }));
+
     return (
-        <div className='rewardYearTable'>
-            <table border="1" style={{ width: "100%", textAlign: "center", marginTop: "10px" }}>
-                <thead>
-                    <tr>
-                        <th>Year</th>
-                        {[
-                            "January", "February", "March", "April", "May", "June",
-                            "July", "August", "September", "October", "November", "December"
-                        ].map((month) => (
-                            <th key={month}>{month}</th>
-                        ))}
-                        <th>Total Rewards</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {Object.entries(years).map(([year, data]) => (
-                        <tr key={year}>
-                            <td><strong>{year}</strong></td>
-                            {[
-                                "January", "February", "March", "April", "May", "June",
-                                "July", "August", "September", "October", "November", "December"
-                            ].map((month) => (
-                                <td key={month}>
-                                    {data.months[month] ? data.months[month].rewards : "-"}
-                                </td>
-                            ))}
-                            <td><strong>{data.totalYearlyRewards}</strong></td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+        <div className="rewardYearTable"> {/* Wrapper div for styling */}
+            <Table
+                columns={columns}
+                data={data}
+                testId="reward-year-table"
+                controllerDisable={true} // Disabling sorting and pagination
+            />
         </div>
     );
 };

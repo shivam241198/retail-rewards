@@ -1,4 +1,5 @@
 import "./table.scss";
+
 const Table = ({
   columns,
   data,
@@ -6,6 +7,7 @@ const Table = ({
   onPageChange,
   totalPages,
   currentPage,
+  controllerDisable,
   testId,
 }) => {
   return (
@@ -13,58 +15,65 @@ const Table = ({
       <table className="min-w-full border bg-white">
         <thead>
           <tr>
-            {/* mapping the column list */}
+            {/* Mapping the column list and disabling sorting when controllerDisable is true */}
             {columns.map((col) => (
               <th
                 key={col.key}
-                className="border px-4 py-2 cursor-pointer"
-                onClick={() => onSort(col.key)}
+                className={`border px-4 py-2 ${
+                  controllerDisable ? "" : "cursor-pointer"
+                }`}
+                onClick={() => !controllerDisable && onSort(col.key)} // Disable sorting when controllerDisable is true
               >
-                {col.label} ⬍
+                {col.label} {!controllerDisable && "⬍"}
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {/* mapping the row list */}
+          {/* Checking if data exists before rendering table rows */}
           {data.length > 0 ? (
             data.map((row) => (
-              <tr key={row.customerId} className="border">
-                {/* mapping the column list */}
+              <tr key={`${row.customerId || row.year}`} className="border">
+                {/* Mapping columns to populate row data */}
                 {columns.map((col) => (
-                  <td key={`${row.id}-${col.key}`} className="border px-4 py-2">
-                    {/* Check if the render method exists in the column list based on the value to be display */}
+                  <td key={`${col.key}`} className="border px-4 py-2">
+                    {/* Check if custom render function exists, otherwise display raw data */}
                     {col.render ? col.render(row[col.key], row) : row[col.key]}
                   </td>
                 ))}
               </tr>
             ))
           ) : (
-            <tr> No data found</tr>
+            <tr>
+              <td colSpan={columns.length} className="text-center p-4">
+                No data found
+              </td>
+            </tr>
           )}
         </tbody>
       </table>
-
-      {/* Pagination Controls  */}
-      <div className="flex justify-between items-center mt-4 pagination-container ">
-        <button
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50  pagination-btn"
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Prev
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50  pagination-btn"
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
+      {/* Pagination Controls - Disabled when controllerDisable is true */}
+      {!controllerDisable && (
+        <div className="flex justify-between items-center mt-4 pagination-container">
+          <button
+            className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50 pagination-btn"
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={controllerDisable || currentPage === 1} // Disable if controllerDisable is true
+          >
+            Prev
+          </button>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50 pagination-btn"
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={controllerDisable || currentPage === totalPages} // Disable if controllerDisable is true
+          >
+            Next
+          </button>
+        </div>
+      )}{" "}
     </div>
   );
 };

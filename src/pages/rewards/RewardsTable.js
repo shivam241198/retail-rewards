@@ -1,46 +1,58 @@
-import React from "react";
-import Table from "../../components/table";
-import { RewardYearTable } from "./RewardYearTable";
+import React from "react"; // Importing React library
+import Table from "../../components/table"; // Importing the Table component used for rendering the rewards table
+import { RewardYearTable } from "./RewardYearTable"; // Importing the RewardYearTable component to display yearly reward data
 
-//RewardsTable Component Displays a table of customer rewards data.
- 
+/**
+ * RewardsTable Component
+ * Displays a table containing customer rewards data.
+ */
 const RewardsTable = ({
-  rewards,
-  onSort,
-  onPageChange,
-  totalPages,
-  currentPage,
+  rewards, // Array of customer reward data
+  onSort, // Function to handle sorting
+  onPageChange, // Function to change pages
+  totalPages, // Total available pages
+  currentPage, // Current selected page
 }) => {
- 
-  // Defines table column structure with respective data keys and labels. The `render` function is used for custom rendering of the "Rewards (points)" column.
+   
+  // Defines the structure of table columns including data keys, labels, and custom render functions
   const columns = [
-    { key: "customerName", label: "Customer Name" }, // Displays customer name
+    { 
+      key: "customerName", // Data key to extract the customer name
+      label: "Customer Name" // Column header label displayed in the table
+    },
 
     {
-      key: "years",
-      label: "Rewards (points)",
-      // Custom render function for displaying monthly rewards. Uses the `RewardYearTable` component to format the rewards data.
+      key: "years", // Data key containing yearly rewards information
+      label: "Rewards (points)", // Column header label for rewards section
       
+      // Custom rendering function for the "Rewards (points)" column
+      // This function takes `years` data as input and passes it to the `RewardYearTable` component
       render: (years) => <RewardYearTable years={years} />
     },
 
-    { key: "totalAmount", label: "Total Amount ($)" }, // Displays total amount spent by customer
-    { key: "totalRewards", label: "Total Rewards (points)" }, // Displays total rewards earned
+    { 
+      key: "totalAmount", // Data key for total amount spent by the customer
+      label: "Total Amount ($)" // Column header label for total spending
+    }, 
+
+    { 
+      key: "totalRewards", // Data key for total rewards earned
+      label: "Total Rewards (points)" // Column header label for total rewards
+    }, 
   ];
 
   return (
-    // Custom Table component to display rewards data.
-    
+    // Renders the custom Table component with provided data, columns, and event handlers
     <Table
-      testId={'rewards-table'}
-      data={rewards}
-      columns={columns}
-      onSort={onSort}
-      onPageChange={onPageChange}
-      totalPages={totalPages}
-      currentPage={currentPage}
+      testId={'rewards-table'} // Assigns a test ID for testing purposes
+      data={rewards} // Passes the rewards data to be displayed in the table
+      columns={columns} // Defines the table columns structure
+      onSort={onSort} // Handles sorting when clicking on column headers
+      onPageChange={onPageChange} // Handles page change actions
+      totalPages={totalPages} // Provides total pages count for pagination
+      currentPage={currentPage} // Tracks the currently active page
     />
   );
 };
 
-export default RewardsTable;
+export default RewardsTable; // Exports the RewardsTable component for use in other parts of the application
