@@ -1,10 +1,60 @@
-# Project Overview
 
-This project implements a customer rewards Offers based on purchase transactions. Customers earn points based on their spending:
+# Rewards Calculation System
 
-2 points for every dollar spent over $100 in a transaction.
-1 point for every dollar spent between $50 and $100 in a transaction.
-Purchases below $50 earn zero points.
+## Project Overview
+
+This project is a Rewards Calculation System built using React.js. It calculates reward points for customers based on their transactions and displays yearly reward summaries in a tabular format. The system includes pagination, sorting, and data organization for better usability.
+
+## Features
+
+1. Calculate rewards based on transaction amounts
+2. Display reward summaries by month and year
+3. Custom reusable table component with sorting and pagination
+4. Debouncing mechanism for optimizing user inputs
+5. Data transformation utilities for structured information
+
+## Project Structure
+
+/rewards-system
+├── src
+│   ├── components
+│   │   ├── Table.js
+│   │   ├── RewardYearTable.js
+│   ├── pages
+│   │   ├── Rewards.js
+│   ├── utils
+│   │   ├── Helper.js
+│   ├── hooks
+│   │   ├── useDebounce.js
+│   ├── App.js
+│   ├── index.js
+│   ├── styles
+│   │   ├── table.scss
+│   │   ├── rewardYearTable.scss
+└── README.md
+
+## Logic Explanation
+
+1. Rewards Calculation Logic (calculateCustomerRewards)
+Uses a tiered points system:
+   1. $50-$100 → 1 point per $1
+   2. Over $100 → 2 points per $1
+Structures data by year and month for tabular representation.
+
+2. Reusable Table Component (Table.js)
+   1. Displays dynamic columns and data
+   2. Supports sorting and pagination
+
+3. Rewards Page (Rewards.js)
+   1. Fetches transaction data
+   2. Uses calculateCustomerRewards() to generate structured reward data 
+   3. Passes data to RewardYearTable.js for display
+
+4. Debouncing Hook (useDebounce.js)
+Used for optimizing search inputs to prevent unnecessary API calls.
+
+
+This project efficiently calculates and displays customer rewards using a tiered points system, ensuring fair and structured reward distribution. By organizing data by year and month, it provides a clear breakdown of customer transactions and earned points. The implementation of reusable components (such as Table and RewardYearTable) and optimized state management ensures scalability and maintainability
 
 ## Available Scripts
 
