@@ -13,26 +13,6 @@ This project is a Rewards Calculation System built using React.js. It calculates
 4. Debouncing mechanism for optimizing user inputs
 5. Data transformation utilities for structured information
 
-## Project Structure
-
-/rewards-system
-├── src
-│   ├── components
-│   │   ├── Table.js
-│   │   ├── RewardYearTable.js
-│   ├── pages
-│   │   ├── Rewards.js
-│   ├── utils
-│   │   ├── Helper.js
-│   ├── hooks
-│   │   ├── useDebounce.js
-│   ├── App.js
-│   ├── index.js
-│   ├── styles
-│   │   ├── table.scss
-│   │   ├── rewardYearTable.scss
-└── README.md
-
 ## Logic Explanation
 
 1. Rewards Calculation Logic (calculateCustomerRewards)
